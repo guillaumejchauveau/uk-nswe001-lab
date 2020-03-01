@@ -22,7 +22,7 @@
 #define __STM32F4xx_HAL_RCC_H
 
 #ifdef __cplusplus
-extern "C" {
+ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -48,7 +48,8 @@ extern "C" {
 /**
   * @brief  RCC Internal/External Oscillator (HSE, HSI, LSE and LSI) configuration structure definition
   */
-typedef struct {
+typedef struct
+{
   uint32_t OscillatorType;       /*!< The oscillators to be configured.
                                       This parameter can be a value of @ref RCC_Oscillator_Type                   */
 
@@ -68,12 +69,13 @@ typedef struct {
                                       This parameter can be a value of @ref RCC_LSI_Config                        */
 
   RCC_PLLInitTypeDef PLL;        /*!< PLL structure parameters                                                    */
-} RCC_OscInitTypeDef;
+}RCC_OscInitTypeDef;
 
 /**
   * @brief  RCC System, AHB and APB busses clock configuration structure definition
   */
-typedef struct {
+typedef struct
+{
   uint32_t ClockType;             /*!< The clock to be configured.
                                        This parameter can be a value of @ref RCC_System_Clock_Type      */
 
@@ -89,7 +91,7 @@ typedef struct {
   uint32_t APB2CLKDivider;        /*!< The APB2 clock (PCLK2) divider. This clock is derived from the AHB clock (HCLK).
                                        This parameter can be a value of @ref RCC_APB1_APB2_Clock_Source */
 
-} RCC_ClkInitTypeDef;
+}RCC_ClkInitTypeDef;
 
 /**
   * @}
@@ -1236,9 +1238,9 @@ typedef struct {
   */
 
 /* Exported functions --------------------------------------------------------*/
-/** @addtogroup RCC_Exported_Functions
- * @{
- */
+ /** @addtogroup RCC_Exported_Functions
+  * @{
+  */
 
 /** @addtogroup RCC_Exported_Functions_Group1
   * @{
@@ -1255,15 +1257,15 @@ HAL_StatusTypeDef HAL_RCC_ClockConfig(RCC_ClkInitTypeDef *RCC_ClkInitStruct, uin
   * @{
   */
 /* Peripheral Control functions  ************************************************/
-void HAL_RCC_MCOConfig(uint32_t RCC_MCOx, uint32_t RCC_MCOSource, uint32_t RCC_MCODiv);
-void HAL_RCC_EnableCSS(void);
-void HAL_RCC_DisableCSS(void);
+void     HAL_RCC_MCOConfig(uint32_t RCC_MCOx, uint32_t RCC_MCOSource, uint32_t RCC_MCODiv);
+void     HAL_RCC_EnableCSS(void);
+void     HAL_RCC_DisableCSS(void);
 uint32_t HAL_RCC_GetSysClockFreq(void);
 uint32_t HAL_RCC_GetHCLKFreq(void);
 uint32_t HAL_RCC_GetPCLK1Freq(void);
 uint32_t HAL_RCC_GetPCLK2Freq(void);
-void HAL_RCC_GetOscConfig(RCC_OscInitTypeDef *RCC_OscInitStruct);
-void HAL_RCC_GetClockConfig(RCC_ClkInitTypeDef *RCC_ClkInitStruct, uint32_t *pFLatency);
+void     HAL_RCC_GetOscConfig(RCC_OscInitTypeDef *RCC_OscInitStruct);
+void     HAL_RCC_GetClockConfig(RCC_ClkInitTypeDef *RCC_ClkInitStruct, uint32_t *pFLatency);
 
 /* CSS NMI IRQ handler */
 void HAL_RCC_NMI_IRQHandler(void);

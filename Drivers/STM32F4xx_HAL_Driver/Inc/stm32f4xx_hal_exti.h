@@ -42,22 +42,25 @@ extern "C" {
 /** @defgroup EXTI_Exported_Types EXTI Exported Types
   * @{
   */
-typedef enum {
-  HAL_EXTI_COMMON_CB_ID = 0x00U
+typedef enum
+{
+  HAL_EXTI_COMMON_CB_ID          = 0x00U
 } EXTI_CallbackIDTypeDef;
 
 /**
   * @brief  EXTI Handle structure definition
   */
-typedef struct {
+typedef struct
+{
   uint32_t Line;                    /*!<  Exti line number */
-  void (*PendingCallback)(void);   /*!<  Exti pending callback */
+  void (* PendingCallback)(void);   /*!<  Exti pending callback */
 } EXTI_HandleTypeDef;
 
 /**
   * @brief  EXTI Configuration structure definition
   */
-typedef struct {
+typedef struct
+{
   uint32_t Line;      /*!< The Exti line to be configured. This parameter
                            can be a value of @ref EXTI_Line */
   uint32_t Mode;      /*!< The Exit Mode to be configured for a core.
@@ -323,14 +326,10 @@ typedef struct {
   * @{
   */
 /* Configuration functions ****************************************************/
-HAL_StatusTypeDef HAL_EXTI_SetConfigLine(EXTI_HandleTypeDef *hexti,
-                                         EXTI_ConfigTypeDef *pExtiConfig);
-HAL_StatusTypeDef HAL_EXTI_GetConfigLine(EXTI_HandleTypeDef *hexti,
-                                         EXTI_ConfigTypeDef *pExtiConfig);
+HAL_StatusTypeDef HAL_EXTI_SetConfigLine(EXTI_HandleTypeDef *hexti, EXTI_ConfigTypeDef *pExtiConfig);
+HAL_StatusTypeDef HAL_EXTI_GetConfigLine(EXTI_HandleTypeDef *hexti, EXTI_ConfigTypeDef *pExtiConfig);
 HAL_StatusTypeDef HAL_EXTI_ClearConfigLine(EXTI_HandleTypeDef *hexti);
-HAL_StatusTypeDef HAL_EXTI_RegisterCallback(EXTI_HandleTypeDef *hexti,
-                                            EXTI_CallbackIDTypeDef CallbackID,
-                                            void (*pPendingCbfn)(void));
+HAL_StatusTypeDef HAL_EXTI_RegisterCallback(EXTI_HandleTypeDef *hexti, EXTI_CallbackIDTypeDef CallbackID, void (*pPendingCbfn)(void));
 HAL_StatusTypeDef HAL_EXTI_GetHandle(EXTI_HandleTypeDef *hexti, uint32_t ExtiLine);
 /**
   * @}

@@ -44,7 +44,8 @@ extern "C" {
 /**
   * @brief  TIM Time base Configuration Structure definition
   */
-typedef struct {
+typedef struct
+{
   uint32_t Prescaler;         /*!< Specifies the prescaler value used to divide the TIM clock.
                                    This parameter can be a number between Min_Data = 0x0000 and Max_Data = 0xFFFF */
 
@@ -74,7 +75,8 @@ typedef struct {
 /**
   * @brief  TIM Output Compare Configuration Structure definition
   */
-typedef struct {
+typedef struct
+{
   uint32_t OCMode;        /*!< Specifies the TIM mode.
                                This parameter can be a value of @ref TIM_Output_Compare_and_PWM_modes */
 
@@ -105,7 +107,8 @@ typedef struct {
 /**
   * @brief  TIM One Pulse Mode Configuration Structure definition
   */
-typedef struct {
+typedef struct
+{
   uint32_t OCMode;        /*!< Specifies the TIM mode.
                                This parameter can be a value of @ref TIM_Output_Compare_and_PWM_modes */
 
@@ -140,8 +143,9 @@ typedef struct {
 /**
   * @brief  TIM Input Capture Configuration Structure definition
   */
-typedef struct {
-  uint32_t ICPolarity;  /*!< Specifies the active edge of the input signal.
+typedef struct
+{
+  uint32_t  ICPolarity;  /*!< Specifies the active edge of the input signal.
                               This parameter can be a value of @ref TIM_Input_Capture_Polarity */
 
   uint32_t ICSelection;  /*!< Specifies the input.
@@ -157,7 +161,8 @@ typedef struct {
 /**
   * @brief  TIM Encoder Configuration Structure definition
   */
-typedef struct {
+typedef struct
+{
   uint32_t EncoderMode;   /*!< Specifies the active edge of the input signal.
                                This parameter can be a value of @ref TIM_Encoder_Mode */
 
@@ -189,7 +194,8 @@ typedef struct {
 /**
   * @brief  Clock Configuration Handle Structure definition
   */
-typedef struct {
+typedef struct
+{
   uint32_t ClockSource;     /*!< TIM clock sources
                                  This parameter can be a value of @ref TIM_Clock_Source */
   uint32_t ClockPolarity;   /*!< TIM clock polarity
@@ -203,7 +209,8 @@ typedef struct {
 /**
   * @brief  TIM Clear Input Configuration Handle Structure definition
   */
-typedef struct {
+typedef struct
+{
   uint32_t ClearInputState;      /*!< TIM clear Input state
                                       This parameter can be ENABLE or DISABLE */
   uint32_t ClearInputSource;     /*!< TIM clear Input sources
@@ -219,10 +226,11 @@ typedef struct {
 /**
   * @brief  TIM Master configuration Structure definition
   */
-typedef struct {
-  uint32_t MasterOutputTrigger;   /*!< Trigger output (TRGO) selection
+typedef struct
+{
+  uint32_t  MasterOutputTrigger;   /*!< Trigger output (TRGO) selection
                                         This parameter can be a value of @ref TIM_Master_Mode_Selection */
-  uint32_t MasterSlaveMode;       /*!< Master/slave mode selection
+  uint32_t  MasterSlaveMode;       /*!< Master/slave mode selection
                                         This parameter can be a value of @ref TIM_Master_Slave_Mode
                                         @note When the Master/slave mode is enabled, the effect of
                                         an event on the trigger input (TRGI) is delayed to allow a
@@ -234,16 +242,17 @@ typedef struct {
 /**
   * @brief  TIM Slave configuration Structure definition
   */
-typedef struct {
-  uint32_t SlaveMode;         /*!< Slave mode selection
+typedef struct
+{
+  uint32_t  SlaveMode;         /*!< Slave mode selection
                                     This parameter can be a value of @ref TIM_Slave_Mode */
-  uint32_t InputTrigger;      /*!< Input Trigger source
+  uint32_t  InputTrigger;      /*!< Input Trigger source
                                     This parameter can be a value of @ref TIM_Trigger_Selection */
-  uint32_t TriggerPolarity;   /*!< Input Trigger polarity
+  uint32_t  TriggerPolarity;   /*!< Input Trigger polarity
                                     This parameter can be a value of @ref TIM_Trigger_Polarity */
-  uint32_t TriggerPrescaler;  /*!< Input trigger prescaler
+  uint32_t  TriggerPrescaler;  /*!< Input trigger prescaler
                                     This parameter can be a value of @ref TIM_Trigger_Prescaler */
-  uint32_t TriggerFilter;     /*!< Input trigger filter
+  uint32_t  TriggerFilter;     /*!< Input trigger filter
                                     This parameter can be a number between Min_Data = 0x0 and Max_Data = 0xF  */
 
 } TIM_SlaveConfigTypeDef;
@@ -253,7 +262,8 @@ typedef struct {
   * @note   2 break inputs can be configured (BKIN and BKIN2) with configurable
   *        filter and polarity.
   */
-typedef struct {
+typedef struct
+{
   uint32_t OffStateRunMode;      /*!< TIM off state in run mode
                                       This parameter can be a value of @ref TIM_OSSR_Off_State_Selection_for_Run_mode_state */
   uint32_t OffStateIDLEMode;     /*!< TIM off state in IDLE mode
@@ -275,23 +285,25 @@ typedef struct {
 /**
   * @brief  HAL State structures definition
   */
-typedef enum {
-  HAL_TIM_STATE_RESET = 0x00U,    /*!< Peripheral not yet initialized or disabled  */
-  HAL_TIM_STATE_READY = 0x01U,    /*!< Peripheral Initialized and ready for use    */
-  HAL_TIM_STATE_BUSY = 0x02U,    /*!< An internal process is ongoing              */
-  HAL_TIM_STATE_TIMEOUT = 0x03U,    /*!< Timeout state                               */
-  HAL_TIM_STATE_ERROR = 0x04U     /*!< Reception process is ongoing                */
+typedef enum
+{
+  HAL_TIM_STATE_RESET             = 0x00U,    /*!< Peripheral not yet initialized or disabled  */
+  HAL_TIM_STATE_READY             = 0x01U,    /*!< Peripheral Initialized and ready for use    */
+  HAL_TIM_STATE_BUSY              = 0x02U,    /*!< An internal process is ongoing              */
+  HAL_TIM_STATE_TIMEOUT           = 0x03U,    /*!< Timeout state                               */
+  HAL_TIM_STATE_ERROR             = 0x04U     /*!< Reception process is ongoing                */
 } HAL_TIM_StateTypeDef;
 
 /**
   * @brief  HAL Active channel structures definition
   */
-typedef enum {
-  HAL_TIM_ACTIVE_CHANNEL_1 = 0x01U,    /*!< The active channel is 1     */
-  HAL_TIM_ACTIVE_CHANNEL_2 = 0x02U,    /*!< The active channel is 2     */
-  HAL_TIM_ACTIVE_CHANNEL_3 = 0x04U,    /*!< The active channel is 3     */
-  HAL_TIM_ACTIVE_CHANNEL_4 = 0x08U,    /*!< The active channel is 4     */
-  HAL_TIM_ACTIVE_CHANNEL_CLEARED = 0x00U     /*!< All active channels cleared */
+typedef enum
+{
+  HAL_TIM_ACTIVE_CHANNEL_1        = 0x01U,    /*!< The active channel is 1     */
+  HAL_TIM_ACTIVE_CHANNEL_2        = 0x02U,    /*!< The active channel is 2     */
+  HAL_TIM_ACTIVE_CHANNEL_3        = 0x04U,    /*!< The active channel is 3     */
+  HAL_TIM_ACTIVE_CHANNEL_4        = 0x08U,    /*!< The active channel is 4     */
+  HAL_TIM_ACTIVE_CHANNEL_CLEARED  = 0x00U     /*!< All active channels cleared */
 } HAL_TIM_ActiveChannel;
 
 /**
@@ -303,14 +315,13 @@ typedef struct __TIM_HandleTypeDef
 typedef struct
 #endif /* USE_HAL_TIM_REGISTER_CALLBACKS */
 {
-  TIM_TypeDef *Instance;     /*!< Register base address             */
-  TIM_Base_InitTypeDef Init;          /*!< TIM Time Base required parameters */
-  HAL_TIM_ActiveChannel Channel;       /*!< Active channel                    */
-  DMA_HandleTypeDef *hdma[7];      /*!< DMA Handlers array
+  TIM_TypeDef                 *Instance;     /*!< Register base address             */
+  TIM_Base_InitTypeDef        Init;          /*!< TIM Time Base required parameters */
+  HAL_TIM_ActiveChannel       Channel;       /*!< Active channel                    */
+  DMA_HandleTypeDef           *hdma[7];      /*!< DMA Handlers array
                                                   This array is accessed by a @ref DMA_Handle_index */
-  HAL_LockTypeDef Lock;          /*!< Locking object                    */
-  __IO HAL_TIM_StateTypeDef
-  State;         /*!< TIM operation state               */
+  HAL_LockTypeDef             Lock;          /*!< Locking object                    */
+  __IO HAL_TIM_StateTypeDef   State;         /*!< TIM operation state               */
 
 #if (USE_HAL_TIM_REGISTER_CALLBACKS == 1)
   void (* Base_MspInitCallback)(struct __TIM_HandleTypeDef *htim);              /*!< TIM Base Msp Init Callback                              */
@@ -812,7 +823,7 @@ typedef  void (*pTIM_CallbackTypeDef)(TIM_HandleTypeDef *htim);  /*!< pointer to
   * @{
   */
 #define TIM_AUTOMATICOUTPUT_DISABLE        0x00000000U                          /*!< MOE can be set only by software */
-#define TIM_AUTOMATICOUTPUT_ENABLE         TIM_BDTR_AOE                         /*!< MOE can be set by software or automatically at the next update event
+#define TIM_AUTOMATICOUTPUT_ENABLE         TIM_BDTR_AOE                         /*!< MOE can be set by software or automatically at the next update event 
                                                                                     (if none of the break inputs BRK and BRK2 is active) */
 /**
   * @}
@@ -1630,6 +1641,7 @@ mode.
 
 #define IS_TIM_BREAK_FILTER(__BRKFILTER__) ((__BRKFILTER__) <= 0xFUL)
 
+
 #define IS_TIM_BREAK_STATE(__STATE__)      (((__STATE__) == TIM_BREAK_ENABLE) || \
                                             ((__STATE__) == TIM_BREAK_DISABLE))
 
@@ -1798,8 +1810,7 @@ HAL_StatusTypeDef HAL_TIM_OC_Stop(TIM_HandleTypeDef *htim, uint32_t Channel);
 HAL_StatusTypeDef HAL_TIM_OC_Start_IT(TIM_HandleTypeDef *htim, uint32_t Channel);
 HAL_StatusTypeDef HAL_TIM_OC_Stop_IT(TIM_HandleTypeDef *htim, uint32_t Channel);
 /* Non-Blocking mode: DMA */
-HAL_StatusTypeDef HAL_TIM_OC_Start_DMA(TIM_HandleTypeDef *htim, uint32_t Channel, uint32_t *pData,
-                                       uint16_t Length);
+HAL_StatusTypeDef HAL_TIM_OC_Start_DMA(TIM_HandleTypeDef *htim, uint32_t Channel, uint32_t *pData, uint16_t Length);
 HAL_StatusTypeDef HAL_TIM_OC_Stop_DMA(TIM_HandleTypeDef *htim, uint32_t Channel);
 /**
   * @}
@@ -1821,8 +1832,7 @@ HAL_StatusTypeDef HAL_TIM_PWM_Stop(TIM_HandleTypeDef *htim, uint32_t Channel);
 HAL_StatusTypeDef HAL_TIM_PWM_Start_IT(TIM_HandleTypeDef *htim, uint32_t Channel);
 HAL_StatusTypeDef HAL_TIM_PWM_Stop_IT(TIM_HandleTypeDef *htim, uint32_t Channel);
 /* Non-Blocking mode: DMA */
-HAL_StatusTypeDef HAL_TIM_PWM_Start_DMA(TIM_HandleTypeDef *htim, uint32_t Channel, uint32_t *pData,
-                                        uint16_t Length);
+HAL_StatusTypeDef HAL_TIM_PWM_Start_DMA(TIM_HandleTypeDef *htim, uint32_t Channel, uint32_t *pData, uint16_t Length);
 HAL_StatusTypeDef HAL_TIM_PWM_Stop_DMA(TIM_HandleTypeDef *htim, uint32_t Channel);
 /**
   * @}
@@ -1844,8 +1854,7 @@ HAL_StatusTypeDef HAL_TIM_IC_Stop(TIM_HandleTypeDef *htim, uint32_t Channel);
 HAL_StatusTypeDef HAL_TIM_IC_Start_IT(TIM_HandleTypeDef *htim, uint32_t Channel);
 HAL_StatusTypeDef HAL_TIM_IC_Stop_IT(TIM_HandleTypeDef *htim, uint32_t Channel);
 /* Non-Blocking mode: DMA */
-HAL_StatusTypeDef HAL_TIM_IC_Start_DMA(TIM_HandleTypeDef *htim, uint32_t Channel, uint32_t *pData,
-                                       uint16_t Length);
+HAL_StatusTypeDef HAL_TIM_IC_Start_DMA(TIM_HandleTypeDef *htim, uint32_t Channel, uint32_t *pData, uint16_t Length);
 HAL_StatusTypeDef HAL_TIM_IC_Stop_DMA(TIM_HandleTypeDef *htim, uint32_t Channel);
 /**
   * @}
@@ -1875,7 +1884,7 @@ HAL_StatusTypeDef HAL_TIM_OnePulse_Stop_IT(TIM_HandleTypeDef *htim, uint32_t Out
   * @{
   */
 /* Timer Encoder functions ****************************************************/
-HAL_StatusTypeDef HAL_TIM_Encoder_Init(TIM_HandleTypeDef *htim, TIM_Encoder_InitTypeDef *sConfig);
+HAL_StatusTypeDef HAL_TIM_Encoder_Init(TIM_HandleTypeDef *htim,  TIM_Encoder_InitTypeDef *sConfig);
 HAL_StatusTypeDef HAL_TIM_Encoder_DeInit(TIM_HandleTypeDef *htim);
 void HAL_TIM_Encoder_MspInit(TIM_HandleTypeDef *htim);
 void HAL_TIM_Encoder_MspDeInit(TIM_HandleTypeDef *htim);
@@ -1886,8 +1895,7 @@ HAL_StatusTypeDef HAL_TIM_Encoder_Stop(TIM_HandleTypeDef *htim, uint32_t Channel
 HAL_StatusTypeDef HAL_TIM_Encoder_Start_IT(TIM_HandleTypeDef *htim, uint32_t Channel);
 HAL_StatusTypeDef HAL_TIM_Encoder_Stop_IT(TIM_HandleTypeDef *htim, uint32_t Channel);
 /* Non-Blocking mode: DMA */
-HAL_StatusTypeDef HAL_TIM_Encoder_Start_DMA(TIM_HandleTypeDef *htim, uint32_t Channel,
-                                            uint32_t *pData1,
+HAL_StatusTypeDef HAL_TIM_Encoder_Start_DMA(TIM_HandleTypeDef *htim, uint32_t Channel, uint32_t *pData1,
                                             uint32_t *pData2, uint16_t Length);
 HAL_StatusTypeDef HAL_TIM_Encoder_Stop_DMA(TIM_HandleTypeDef *htim, uint32_t Channel);
 /**
@@ -1909,32 +1917,22 @@ void HAL_TIM_IRQHandler(TIM_HandleTypeDef *htim);
   * @{
   */
 /* Control functions  *********************************************************/
-HAL_StatusTypeDef HAL_TIM_OC_ConfigChannel(TIM_HandleTypeDef *htim, TIM_OC_InitTypeDef *sConfig,
+HAL_StatusTypeDef HAL_TIM_OC_ConfigChannel(TIM_HandleTypeDef *htim, TIM_OC_InitTypeDef *sConfig, uint32_t Channel);
+HAL_StatusTypeDef HAL_TIM_PWM_ConfigChannel(TIM_HandleTypeDef *htim, TIM_OC_InitTypeDef *sConfig, uint32_t Channel);
+HAL_StatusTypeDef HAL_TIM_IC_ConfigChannel(TIM_HandleTypeDef *htim, TIM_IC_InitTypeDef *sConfig, uint32_t Channel);
+HAL_StatusTypeDef HAL_TIM_OnePulse_ConfigChannel(TIM_HandleTypeDef *htim, TIM_OnePulse_InitTypeDef *sConfig,
+                                                 uint32_t OutputChannel,  uint32_t InputChannel);
+HAL_StatusTypeDef HAL_TIM_ConfigOCrefClear(TIM_HandleTypeDef *htim, TIM_ClearInputConfigTypeDef *sClearInputConfig,
                                            uint32_t Channel);
-HAL_StatusTypeDef HAL_TIM_PWM_ConfigChannel(TIM_HandleTypeDef *htim, TIM_OC_InitTypeDef *sConfig,
-                                            uint32_t Channel);
-HAL_StatusTypeDef HAL_TIM_IC_ConfigChannel(TIM_HandleTypeDef *htim, TIM_IC_InitTypeDef *sConfig,
-                                           uint32_t Channel);
-HAL_StatusTypeDef HAL_TIM_OnePulse_ConfigChannel(TIM_HandleTypeDef *htim,
-                                                 TIM_OnePulse_InitTypeDef *sConfig,
-                                                 uint32_t OutputChannel, uint32_t InputChannel);
-HAL_StatusTypeDef HAL_TIM_ConfigOCrefClear(TIM_HandleTypeDef *htim,
-                                           TIM_ClearInputConfigTypeDef *sClearInputConfig,
-                                           uint32_t Channel);
-HAL_StatusTypeDef HAL_TIM_ConfigClockSource(TIM_HandleTypeDef *htim,
-                                            TIM_ClockConfigTypeDef *sClockSourceConfig);
+HAL_StatusTypeDef HAL_TIM_ConfigClockSource(TIM_HandleTypeDef *htim, TIM_ClockConfigTypeDef *sClockSourceConfig);
 HAL_StatusTypeDef HAL_TIM_ConfigTI1Input(TIM_HandleTypeDef *htim, uint32_t TI1_Selection);
-HAL_StatusTypeDef HAL_TIM_SlaveConfigSynchro(TIM_HandleTypeDef *htim,
-                                             TIM_SlaveConfigTypeDef *sSlaveConfig);
-HAL_StatusTypeDef HAL_TIM_SlaveConfigSynchro_IT(TIM_HandleTypeDef *htim,
-                                                TIM_SlaveConfigTypeDef *sSlaveConfig);
+HAL_StatusTypeDef HAL_TIM_SlaveConfigSynchro(TIM_HandleTypeDef *htim, TIM_SlaveConfigTypeDef *sSlaveConfig);
+HAL_StatusTypeDef HAL_TIM_SlaveConfigSynchro_IT(TIM_HandleTypeDef *htim, TIM_SlaveConfigTypeDef *sSlaveConfig);
 HAL_StatusTypeDef HAL_TIM_DMABurst_WriteStart(TIM_HandleTypeDef *htim, uint32_t BurstBaseAddress,
-                                              uint32_t BurstRequestSrc, uint32_t *BurstBuffer,
-                                              uint32_t BurstLength);
+                                              uint32_t BurstRequestSrc, uint32_t  *BurstBuffer, uint32_t  BurstLength);
 HAL_StatusTypeDef HAL_TIM_DMABurst_WriteStop(TIM_HandleTypeDef *htim, uint32_t BurstRequestSrc);
 HAL_StatusTypeDef HAL_TIM_DMABurst_ReadStart(TIM_HandleTypeDef *htim, uint32_t BurstBaseAddress,
-                                             uint32_t BurstRequestSrc, uint32_t *BurstBuffer,
-                                             uint32_t BurstLength);
+                                             uint32_t BurstRequestSrc, uint32_t  *BurstBuffer, uint32_t  BurstLength);
 HAL_StatusTypeDef HAL_TIM_DMABurst_ReadStop(TIM_HandleTypeDef *htim, uint32_t BurstRequestSrc);
 HAL_StatusTypeDef HAL_TIM_GenerateEvent(TIM_HandleTypeDef *htim, uint32_t EventSource);
 uint32_t HAL_TIM_ReadCapturedValue(TIM_HandleTypeDef *htim, uint32_t Channel);
@@ -1994,8 +1992,7 @@ HAL_TIM_StateTypeDef HAL_TIM_Encoder_GetState(TIM_HandleTypeDef *htim);
   * @{
   */
 void TIM_Base_SetConfig(TIM_TypeDef *TIMx, TIM_Base_InitTypeDef *Structure);
-void TIM_TI1_SetConfig(TIM_TypeDef *TIMx, uint32_t TIM_ICPolarity, uint32_t TIM_ICSelection,
-                       uint32_t TIM_ICFilter);
+void TIM_TI1_SetConfig(TIM_TypeDef *TIMx, uint32_t TIM_ICPolarity, uint32_t TIM_ICSelection, uint32_t TIM_ICFilter);
 void TIM_OC2_SetConfig(TIM_TypeDef *TIMx, TIM_OC_InitTypeDef *OC_Config);
 void TIM_ETR_SetConfig(TIM_TypeDef *TIMx, uint32_t TIM_ExtTRGPrescaler,
                        uint32_t TIM_ExtTRGPolarity, uint32_t ExtTRGFilter);
