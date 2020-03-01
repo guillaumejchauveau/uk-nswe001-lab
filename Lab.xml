@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<targetDefinitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://openstm32.org/stm32TargetDefinitions"
+                   xsi:schemaLocation="http://openstm32.org/stm32TargetDefinitions stm32TargetDefinitions.xsd">
+  <board id="Lab">
+    <name>Lab</name>
+    <mcuId>STM32F407VGTx</mcuId>  <!-- mcu-->
+    <dbgIF>SWD</dbgIF>
+    <dbgDEV>ST-LinkV2-1</dbgDEV>
+  </board>
+</targetDefinitions>
