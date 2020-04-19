@@ -1,20 +1,38 @@
 #ifndef _LED_H_
 #define _LED_H_
+#include "tick.h"
+#include "gpio.h"
 
 class Led {
 protected:
-  GPIO_TypeDef *GPIOx;
-  uint16_t GPIO_Pin;
+  GPIO::Pin pin_;
 public:
-  Led(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin) : GPIOx(GPIOx), GPIO_Pin(GPIO_Pin) {
+  explicit Led(GPIO::Pin pin) : pin_(pin) {
   }
 
   void on() {
-    HAL_GPIO_WritePin(this->GPIOx, this->GPIO_Pin, GPIO_PIN_SET);
+    GPIO::high(this->pin_);
   }
 
   void off() {
-    HAL_GPIO_WritePin(this->GPIOx, this->GPIO_Pin, GPIO_PIN_RESET);
+    GPIO::low(this->pin_);
+  }
+};
+
+class FlashLed : public Led {
+protected:
+  TickCounter tick_counter_;
+
+public:
+  explicit FlashLed(GPIO::Pin pin, size_t ticks) : Led(pin), tick_counter_(ticks, [this] (bool *rearm) {
+    this->off();
+    *rearm = false;
+  }) {
+  }
+
+  void on() {
+    this->tick_counter_.start();
+    Led::on();
   }
 };
 

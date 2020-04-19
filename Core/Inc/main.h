@@ -42,6 +42,7 @@ extern "C" {
 
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
+extern UART_HandleTypeDef huart2;
 
 /* USER CODE END EC */
 
@@ -51,20 +52,22 @@ extern "C" {
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
-void SystemClock_Config(void);
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
-
+void SystemClock_Config(void);
+void MX_GPIO_Init(void);
+void MX_USART2_UART_Init(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
 #define BOARD_BTN_Pin GPIO_PIN_0
 #define BOARD_BTN_GPIO_Port GPIOA
-#define UART_TX_Pin GPIO_PIN_2
-#define UART_TX_GPIO_Port GPIOA
-#define UART_RX_Pin GPIO_PIN_3
-#define UART_RX_GPIO_Port GPIOA
+#define BOARD_BTN_EXTI_IRQn EXTI0_IRQn
+#define USART2_TX_Pin GPIO_PIN_2
+#define USART2_TX_GPIO_Port GPIOA
+#define USART2_RX_Pin GPIO_PIN_3
+#define USART2_RX_GPIO_Port GPIOA
 #define BOARD_LED_GREEN_Pin GPIO_PIN_12
 #define BOARD_LED_GREEN_GPIO_Port GPIOD
 #define BOARD_LED_ORANGE_Pin GPIO_PIN_13
