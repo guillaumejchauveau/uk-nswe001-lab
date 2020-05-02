@@ -12,16 +12,21 @@ Button Registry::USER_BTN({USER_BTN_GPIO_Port, USER_BTN_Pin}, 50);
 //Led Registry::RED_LED({RED_LED_GPIO_Port, RED_LED_Pin});
 //Led Registry::BLUE_LED({BLUE_LED_GPIO_Port, BLUE_LED_Pin});
 //FlashLed Registry::ORANGE_FLASH_LED({ORANGE_LED_GPIO_Port, ORANGE_LED_Pin}, 500);
-//FlashLed Registry::GREEN_FLASH_LED({GREEN_LED_GPIO_Port, GREEN_LED_Pin}, 500);
+FlashLed Registry::GREEN_FLASH_LED({GREEN_LED_GPIO_Port, GREEN_LED_Pin}, 500);
 //FlashLed Registry::RED_FLASH_LED({RED_LED_GPIO_Port, RED_LED_Pin}, 500);
 FlashLed Registry::BLUE_FLASH_LED({BLUE_LED_GPIO_Port, BLUE_LED_Pin}, 500);
 Uart Registry::UART2(&huart2);
+WatchDog Registry::IWDG_(&hiwdg);
 
 int main() {
   HAL_Init();
   SystemClock_Config();
   MX_GPIO_Init();
   MX_USART2_UART_Init();
+  MX_IWDG_Init();
+  Registry::GREEN_FLASH_LED.on();
+
+  Registry::IWDG_.registerRefreshCallback();
 
   Registry::USER_BTN.setCallback([](void *) {
     Registry::BLUE_FLASH_LED.on();

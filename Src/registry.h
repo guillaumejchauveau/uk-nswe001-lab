@@ -4,6 +4,7 @@
 #include "button.h"
 #include "led.h"
 #include "uart.h"
+#include "watchdog.h"
 
 namespace Registry {
 extern Button USER_BTN;
@@ -16,6 +17,7 @@ extern FlashLed GREEN_FLASH_LED;
 extern FlashLed RED_FLASH_LED;
 extern FlashLed BLUE_FLASH_LED;
 extern Uart UART2;
+extern WatchDog IWDG_;
 }
 
 #endif //_REGISTRY_H_

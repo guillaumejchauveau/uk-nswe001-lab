@@ -19,12 +19,7 @@ protected:
   int rx_len_{};
   Interrupts::callback_t<CallbackData> rx_callback_;
 public:
-  explicit Uart(UART_HandleTypeDef *handle)
-    : handle_(handle) {
-  }
-
-  ~Uart() {
-    Error_Handler();
+  explicit Uart(UART_HandleTypeDef *handle) : handle_(handle) {
   }
 
   HAL_StatusTypeDef send(char *buffer, int len,
