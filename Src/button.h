@@ -1,7 +1,7 @@
 #ifndef _BUTTON_H_
 #define _BUTTON_H_
-#include <utility>
 
+#include "tick.h"
 #include "interrupts.h"
 #include "gpio.h"
 
@@ -13,11 +13,11 @@ protected:
   Interrupts::callback_t<void> interrupt_callback_;
   Interrupts::callback_t<bool> callback_;
 public:
-  Button(GPIO::Pin pin, Interrupts::callback_t<bool> callback, size_t cooldown = 0)
+  explicit Button(GPIO::Pin pin, size_t cooldown = 0)
     : pin_(pin), armed_(true), rearm_counter_(cooldown, [this](bool *rearm) {
     this->armed_ = true;
-    *rearm = true;
-  }), callback_(std::move(callback)) {
+    *rearm = false;
+  }) {
     this->interrupt_callback_ = [this](void *) {
       if (!this->armed_) {
         return;
@@ -35,6 +35,10 @@ public:
 
   ~Button() {
     Error_Handler();
+  }
+
+  void setCallback(Interrupts::callback_t<bool> callback) {
+    this->callback_ = std::move(callback);
   }
 
   bool isPressed() const {

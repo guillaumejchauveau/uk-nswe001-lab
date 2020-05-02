@@ -61,21 +61,21 @@ void MX_USART2_UART_Init(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define BOARD_BTN_Pin GPIO_PIN_0
-#define BOARD_BTN_GPIO_Port GPIOA
-#define BOARD_BTN_EXTI_IRQn EXTI0_IRQn
+#define USER_BTN_Pin GPIO_PIN_0
+#define USER_BTN_GPIO_Port GPIOA
+#define USER_BTN_EXTI_IRQn EXTI0_IRQn
 #define USART2_TX_Pin GPIO_PIN_2
 #define USART2_TX_GPIO_Port GPIOA
 #define USART2_RX_Pin GPIO_PIN_3
 #define USART2_RX_GPIO_Port GPIOA
-#define BOARD_LED_GREEN_Pin GPIO_PIN_12
-#define BOARD_LED_GREEN_GPIO_Port GPIOD
-#define BOARD_LED_ORANGE_Pin GPIO_PIN_13
-#define BOARD_LED_ORANGE_GPIO_Port GPIOD
-#define BOARD_LED_RED_Pin GPIO_PIN_14
-#define BOARD_LED_RED_GPIO_Port GPIOD
-#define BOARD_LED_BLUE_Pin GPIO_PIN_15
-#define BOARD_LED_BLUE_GPIO_Port GPIOD
+#define GREEN_LED_Pin GPIO_PIN_12
+#define GREEN_LED_GPIO_Port GPIOD
+#define ORANGE_LED_Pin GPIO_PIN_13
+#define ORANGE_LED_GPIO_Port GPIOD
+#define RED_LED_Pin GPIO_PIN_14
+#define RED_LED_GPIO_Port GPIOD
+#define BLUE_LED_Pin GPIO_PIN_15
+#define BLUE_LED_GPIO_Port GPIOD
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

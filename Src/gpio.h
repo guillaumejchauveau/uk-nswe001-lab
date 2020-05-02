@@ -2,7 +2,6 @@
 #define _GPIO_H_
 
 #include "main.h"
-#include <initializer_list>
 #include <cstdlib>
 
 namespace GPIO {
@@ -30,15 +29,15 @@ struct Pin {
   typedef GPIO_TypeDef *port_t;
   typedef Number number_t;
 
-  static constexpr std::initializer_list<number_t> pin_numbers = {
+  static constexpr number_t pin_numbers[] = {
     P0, P1, P2, P3, P4, P5, P6, P7, P8, P9, P10, P11, P12, P13, P14, P15
   };
 
   static number_t convert_number(uint16_t raw_number) {
     assert_param(IS_GPIO_PIN(raw_number));
-    for (auto number : pin_numbers) {
-      if (number == raw_number) {
-        return number;
+    for (auto pin_number : pin_numbers) {
+      if (pin_number == raw_number) {
+        return pin_number;
       }
     }
     std::exit(1);

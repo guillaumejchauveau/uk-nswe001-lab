@@ -1,6 +1,5 @@
 #ifndef _TICK_H_
 #define _TICK_H_
-#include <utility>
 
 #include "interrupts.h"
 
@@ -15,7 +14,7 @@ protected:
 public:
   TickCounter(size_t tick_threshold, Interrupts::callback_t<bool> callback)
     : tick_threshold_(tick_threshold), callback_(std::move(callback)) {
-    this->interrupt_callback_ = [this] (void *) {
+    this->interrupt_callback_ = [this](void *) {
       if (!this->armed_) {
         return;
       }
@@ -41,6 +40,10 @@ public:
 
   void start() {
     this->armed_ = true;
+  }
+
+  void setThreshold(size_t tick_threshold) {
+    this->tick_threshold_ = tick_threshold;
   }
 };
 

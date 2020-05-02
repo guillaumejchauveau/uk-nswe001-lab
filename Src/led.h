@@ -24,10 +24,11 @@ protected:
   TickCounter tick_counter_;
 
 public:
-  explicit FlashLed(GPIO::Pin pin, size_t ticks) : Led(pin), tick_counter_(ticks, [this] (bool *rearm) {
-    this->off();
-    *rearm = false;
-  }) {
+  explicit FlashLed(GPIO::Pin pin, size_t ticks) : Led(pin), tick_counter_(ticks,
+                                                                           [this](bool *rearm) {
+                                                                             this->off();
+                                                                             *rearm = false;
+                                                                           }) {
   }
 
   void on() {
