@@ -2,7 +2,7 @@
 #define _UART_H_
 #include <utility>
 
-#include "interrupts.h"
+#include "nvic.h"
 #include "main.h"
 
 class Uart {
@@ -14,20 +14,27 @@ public:
   };
 protected:
   UART_HandleTypeDef *handle_;
-  Interrupts::callback_t<CallbackData> tx_callback_;
-  char *rx_buffer_{};
-  int rx_len_{};
-  Interrupts::callback_t<CallbackData> rx_callback_;
+  IRQn_Type irqn_;
+  Nvic::callback_t<CallbackData> tx_callback_;
+  char *rx_buffer_;
+  int rx_len_;
+  Nvic::callback_t<CallbackData> rx_callback_;
 public:
-  explicit Uart(UART_HandleTypeDef *handle) : handle_(handle) {
+  Uart(UART_HandleTypeDef *handle, IRQn_Type IRQn)
+    : handle_(handle), irqn_(IRQn), rx_buffer_(nullptr), rx_len_(0) {
   }
 
-  HAL_StatusTypeDef send(char *buffer, int len,
-                         Interrupts::callback_t<CallbackData> callback = nullptr) {
-    if (callback) {
-      this->tx_callback_ = std::move(callback);
-    }
+  void setPriority(uint32_t PreemptPriority, uint32_t SubPriority = 0) {
+    Nvic::setPriority(this->irqn_, PreemptPriority, SubPriority);
+  }
+
+  HAL_StatusTypeDef send(char *buffer, int len) {
     return HAL_UART_Transmit_IT(this->handle_, reinterpret_cast<uint8_t *>(buffer), len);
+  }
+
+  HAL_StatusTypeDef send(char *buffer, int len, Nvic::callback_t<CallbackData> callback) {
+    this->tx_callback_ = std::move(callback);
+    return this->send(buffer, len);
   }
 
   HAL_StatusTypeDef recv() {
@@ -41,7 +48,7 @@ public:
     return this->recv();
   }
 
-  HAL_StatusTypeDef recv(char *buffer, int len, Interrupts::callback_t<CallbackData> callback) {
+  HAL_StatusTypeDef recv(char *buffer, int len, Nvic::callback_t<CallbackData> callback) {
     this->rx_buffer_ = buffer;
     this->rx_len_ = len;
     this->rx_callback_ = std::move(callback);

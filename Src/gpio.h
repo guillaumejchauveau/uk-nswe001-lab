@@ -4,7 +4,7 @@
 #include "main.h"
 #include <cstdlib>
 
-namespace GPIO {
+namespace Gpio {
 struct Pin {
   enum Number {
     P0 = GPIO_PIN_0,
@@ -40,24 +40,24 @@ struct Pin {
         return pin_number;
       }
     }
-    std::exit(1);
+    Error_Handler();
   }
 
   port_t port;
   number_t number;
 
-  Pin(GPIO_TypeDef *port, uint16_t pin) : port(port), number(GPIO::Pin::convert_number(pin)) {
+  Pin(GPIO_TypeDef *port, uint16_t pin) : port(port), number(Gpio::Pin::convert_number(pin)) {
 
   }
 };
 
-GPIO_PinState read(const GPIO::Pin &pin);
+GPIO_PinState read(const Gpio::Pin &pin);
 
-void write(const GPIO::Pin &pin, GPIO_PinState state);
+void write(const Gpio::Pin &pin, GPIO_PinState state);
 
-void high(const GPIO::Pin &pin);
+void high(const Gpio::Pin &pin);
 
-void low(const GPIO::Pin &pin);
+void low(const Gpio::Pin &pin);
 }
 
 #endif //_GPIO_H_

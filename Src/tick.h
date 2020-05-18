@@ -1,18 +1,18 @@
 #ifndef _TICK_H_
 #define _TICK_H_
 
-#include "interrupts.h"
+#include "nvic.h"
 
 class TickCounter {
 protected:
   bool armed_ = false;
   size_t tick_threshold_;
   size_t tick_count_ = 0;
-  Interrupts::callback_t<void> interrupt_callback_;
-  Interrupts::callback_t<bool> callback_;
+  Nvic::callback_t<void> interrupt_callback_;
+  Nvic::callback_t<bool> callback_;
 
 public:
-  TickCounter(size_t tick_threshold, Interrupts::callback_t<bool> callback)
+  TickCounter(size_t tick_threshold, Nvic::callback_t<bool> callback)
     : tick_threshold_(tick_threshold), callback_(std::move(callback)) {
     this->interrupt_callback_ = [this](void *) {
       if (!this->armed_) {
@@ -31,7 +31,7 @@ public:
         this->start();
       }
     };
-    Interrupts::subscribe(SysTick_IRQn, &this->interrupt_callback_);
+    Nvic::subscribe(SysTick_IRQn, &this->interrupt_callback_);
   }
 
   ~TickCounter() {

@@ -5,17 +5,17 @@
 
 class Led {
 protected:
-  GPIO::Pin pin_;
+  Gpio::Pin pin_;
 public:
-  explicit Led(GPIO::Pin pin) : pin_(pin) {
+  explicit Led(Gpio::Pin pin) : pin_(pin) {
   }
 
   void on() {
-    GPIO::high(this->pin_);
+    Gpio::high(this->pin_);
   }
 
   void off() {
-    GPIO::low(this->pin_);
+    Gpio::low(this->pin_);
   }
 };
 
@@ -24,7 +24,7 @@ protected:
   TickCounter tick_counter_;
 
 public:
-  explicit FlashLed(GPIO::Pin pin, size_t ticks) : Led(pin), tick_counter_(ticks,
+  explicit FlashLed(Gpio::Pin pin, size_t ticks) : Led(pin), tick_counter_(ticks,
                                                                            [this](bool *rearm) {
                                                                              this->off();
                                                                              *rearm = false;

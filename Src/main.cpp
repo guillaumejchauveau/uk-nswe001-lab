@@ -3,20 +3,20 @@
 #include "main.h"
 #include <cstdlib>
 
-const IRQn_Type Interrupts::irqn_callback_types_[] = {SysTick_IRQn};
-const GPIO::Pin::number_t Interrupts::exti_callback_types_[] = {GPIO::Pin::P0};
+const IRQn_Type Nvic::irqn_callback_types_[] = {SysTick_IRQn};
+const Gpio::Pin::number_t Nvic::exti_callback_types_[] = {Gpio::Pin::P0};
 
-Button Registry::USER_BTN({USER_BTN_GPIO_Port, USER_BTN_Pin}, 50);
-//Led Registry::ORANGE_LED({ORANGE_LED_GPIO_Port, ORANGE_LED_Pin});
-//Led Registry::GREEN_LED({GREEN_LED_GPIO_Port, GREEN_LED_Pin});
-//Led Registry::RED_LED({RED_LED_GPIO_Port, RED_LED_Pin});
-//Led Registry::BLUE_LED({BLUE_LED_GPIO_Port, BLUE_LED_Pin});
-//FlashLed Registry::ORANGE_FLASH_LED({ORANGE_LED_GPIO_Port, ORANGE_LED_Pin}, 500);
-FlashLed Registry::GREEN_FLASH_LED({GREEN_LED_GPIO_Port, GREEN_LED_Pin}, 500);
-//FlashLed Registry::RED_FLASH_LED({RED_LED_GPIO_Port, RED_LED_Pin}, 500);
-FlashLed Registry::BLUE_FLASH_LED({BLUE_LED_GPIO_Port, BLUE_LED_Pin}, 500);
-Uart Registry::UART2(&huart2);
-WatchDog Registry::IWDG_(&hiwdg);
+Button Registry::BTN_USER({BTN_USER_GPIO_Port, BTN_USER_Pin}, 50);
+//Led Registry::LED_ORANGE({LED_ORANGE_GPIO_Port, LED_ORANGE_Pin});
+//Led Registry::LED_GREEN({LED_GREEN_GPIO_Port, LED_GREEN_Pin});
+//Led Registry::LED_RED({LED_RED_GPIO_Port, LED_RED_Pin});
+//Led Registry::LED_BLUE({LED_BLUE_GPIO_Port, LED_BLUE_Pin});
+//FlashLed Registry::LED_ORANGEF({LED_ORANGE_GPIO_Port, LED_ORANGE_Pin}, 500);
+FlashLed Registry::LED_GREENF({LED_GREEN_GPIO_Port, LED_GREEN_Pin}, 500);
+//FlashLed Registry::LED_REDF({LED_RED_GPIO_Port, LED_RED_Pin}, 500);
+FlashLed Registry::LED_BLUEF({LED_BLUE_GPIO_Port, LED_BLUE_Pin}, 500);
+Uart Registry::UART_2(&huart2, USART2_IRQn);
+WatchDog Registry::WDG_I(&hiwdg);
 
 int main() {
   HAL_Init();
@@ -24,21 +24,22 @@ int main() {
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   MX_IWDG_Init();
-  Registry::GREEN_FLASH_LED.on();
+  Registry::LED_GREENF.on();
 
-  Registry::IWDG_.registerRefreshCallback();
+  Registry::WDG_I.registerRefreshCallback();
 
-  Registry::USER_BTN.setCallback([](void *) {
-    Registry::BLUE_FLASH_LED.on();
+  Registry::BTN_USER.setCallback([](void *) {
+    Registry::LED_BLUEF.on();
   });
 
+  // UART echo.
   char c;
-  Registry::UART2.recv(&c, 1, [](Uart::CallbackData *data) {
+  Registry::UART_2.recv(&c, 1, [](Uart::CallbackData *data) {
     if (data->error) {
       Error_Handler();
     }
-    Registry::UART2.send(data->buffer, data->len);
-    Registry::UART2.recv();
+    Registry::UART_2.send(data->buffer, data->len);
+    Registry::UART_2.recv();
   });
 
   while (true) {

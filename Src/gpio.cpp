@@ -1,17 +1,17 @@
 #include "gpio.h"
 
-GPIO_PinState GPIO::read(const GPIO::Pin &pin) {
+GPIO_PinState Gpio::read(const Gpio::Pin &pin) {
   return HAL_GPIO_ReadPin(pin.port, pin.number);
 }
 
-void GPIO::write(const GPIO::Pin &pin, GPIO_PinState state) {
+void Gpio::write(const Gpio::Pin &pin, GPIO_PinState state) {
   return HAL_GPIO_WritePin(pin.port, pin.number, state);
 }
 
-void GPIO::high(const GPIO::Pin &pin) {
-  GPIO::write(pin, GPIO_PIN_SET);
+void Gpio::high(const Gpio::Pin &pin) {
+  Gpio::write(pin, GPIO_PIN_SET);
 }
 
-void GPIO::low(const GPIO::Pin &pin) {
-  GPIO::write(pin, GPIO_PIN_RESET);
+void Gpio::low(const Gpio::Pin &pin) {
+  Gpio::write(pin, GPIO_PIN_RESET);
 }

@@ -1,5 +1,5 @@
-#ifndef _INTERRUPTS_HANDLERS_H_
-#define _INTERRUPTS_HANDLERS_H_
+#ifndef _IT_H_
+#define _IT_H_
 #include <stm32f4xx_it.h>
 
 #ifdef __cplusplus
@@ -20,4 +20,4 @@ void SysTick_Handler();
 }
 #endif
 
-#endif //_INTERRUPTS_HANDLERS_H_
+#endif //_IT_H_
