@@ -18,6 +18,18 @@ FlashLed Registry::LED_BLUEF({LED_BLUE_GPIO_Port, LED_BLUE_Pin}, 500);
 Uart Registry::UART_2(&huart2, USART2_IRQn);
 WatchDog Registry::WDG_I(&hiwdg);
 
+void f(bool *) {
+  Registry::LED_BLUEF.on();
+}
+
+void uart_echo(Uart::CallbackData *data) {
+  if (data->error) {
+    Error_Handler();
+  }
+  Registry::UART_2.send(data->buffer, data->len);
+  Registry::UART_2.recv();
+}
+
 int main() {
   HAL_Init();
   SystemClock_Config();
@@ -28,19 +40,13 @@ int main() {
 
   Registry::WDG_I.registerRefreshCallback();
 
-  Registry::BTN_USER.setCallback([](void *) {
-    Registry::LED_BLUEF.on();
-  });
+  Nvic::FunctionCallback btn_cb(&f);
+  Registry::BTN_USER.setCallback(&btn_cb);
 
   // UART echo.
   char c;
-  Registry::UART_2.recv(&c, 1, [](Uart::CallbackData *data) {
-    if (data->error) {
-      Error_Handler();
-    }
-    Registry::UART_2.send(data->buffer, data->len);
-    Registry::UART_2.recv();
-  });
+  Nvic::FunctionCallback uart_cb(&uart_echo);
+  Registry::UART_2.recv(&c, 1, &uart_cb);
 
   while (true) {
 

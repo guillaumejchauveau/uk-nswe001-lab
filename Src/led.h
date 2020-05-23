@@ -21,14 +21,19 @@ public:
 
 class FlashLed : public Led {
 protected:
-  TickCounter tick_counter_;
+  Nvic::MemberCallback<bool, FlashLed> tick_counter_callback_;
 
+  void tickCounterCallback(bool *rearm_counter) {
+    this->off();
+    *rearm_counter = false;
+  }
+
+  TickCounter tick_counter_;
 public:
-  explicit FlashLed(Gpio::Pin pin, size_t ticks) : Led(pin), tick_counter_(ticks,
-                                                                           [this](bool *rearm) {
-                                                                             this->off();
-                                                                             *rearm = false;
-                                                                           }) {
+  explicit FlashLed(Gpio::Pin pin, size_t ticks)
+    : Led(pin),
+      tick_counter_callback_(&FlashLed::tickCounterCallback, this),
+      tick_counter_(ticks, &this->tick_counter_callback_) {
   }
 
   void on() {

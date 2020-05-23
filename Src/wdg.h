@@ -7,13 +7,16 @@
 class WatchDog {
 protected:
   IWDG_HandleTypeDef *handle_;
-  Nvic::callback_t<void> refreshCallback_;
+
+  Nvic::MemberCallback<void, WatchDog> refresh_callback_;
+
+  void refreshCallback(void *) {
+    this->refresh();
+  }
 
 public:
-  explicit WatchDog(IWDG_HandleTypeDef *handle) : handle_(handle) {
-    this->refreshCallback_ = [this](void *) {
-      this->refresh();
-    };
+  explicit WatchDog(IWDG_HandleTypeDef *handle)
+    : handle_(handle), refresh_callback_(&WatchDog::refreshCallback, this) {
   }
 
   ~WatchDog() {
@@ -21,7 +24,7 @@ public:
   }
 
   void registerRefreshCallback() {
-    Nvic::subscribe(SysTick_IRQn, &this->refreshCallback_);
+    Nvic::subscribe(SysTick_IRQn, &this->refresh_callback_);
   }
 
   void refresh() {
