@@ -4,7 +4,6 @@
 #include "gpio.h"
 #include "config.h"
 #include "main.h"
-#include <functional>
 
 class Nvic {
 public:

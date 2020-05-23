@@ -2,7 +2,6 @@
 #define _GPIO_H_
 
 #include "main.h"
-#include <cstdlib>
 
 namespace Gpio {
 struct Pin {

@@ -1,6 +1,5 @@
 #ifndef _UART_H_
 #define _UART_H_
-#include <utility>
 
 #include "nvic.h"
 #include "main.h"
