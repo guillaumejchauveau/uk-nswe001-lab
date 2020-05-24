@@ -10,7 +10,7 @@ protected:
   Gpio::Pin pin_;
   IRQn_Type irqn_;
   bool armed_;
-  Nvic::Callback<bool> *user_callback_{};
+  Nvic::Callback<bool> *user_callback_;
 
   Nvic::MemberCallback<void, Button> interrupt_callback_;
 
@@ -18,8 +18,8 @@ protected:
     if (!this->armed_) {
       return;
     }
-    this->armed_ = false;
     assert_param(this->user_callback_);
+    this->armed_ = false;
     bool rearm = true;
     this->user_callback_->operator()(&rearm);
     if (rearm) {
@@ -30,7 +30,7 @@ protected:
   Nvic::MemberCallback<bool, Button> rearm_counter_callback_;
 
   void rearmCounterCallback(bool *rearmCounter) {
-    this->armed_ = true;
+    this->rearm();
     *rearmCounter = false;
   }
 
@@ -38,7 +38,7 @@ protected:
 
 public:
   explicit Button(Gpio::Pin pin, size_t cooldown = 0)
-    : pin_(pin), irqn_(Nvic::getPinIRQn(pin)), armed_(true),
+    : pin_(pin), irqn_(Nvic::getPinIRQn(pin)), armed_(true), user_callback_(nullptr),
       interrupt_callback_(&Button::interruptCallback, this),
       rearm_counter_callback_(&Button::rearmCounterCallback, this),
       rearm_counter_(cooldown, &this->rearm_counter_callback_) {
@@ -55,6 +55,10 @@ public:
 
   void setCallback(Nvic::Callback<bool> *callback) {
     this->user_callback_ = callback;
+  }
+
+  void rearm() {
+    this->armed_ = true;
   }
 
   [[nodiscard]] bool isPressed() const {

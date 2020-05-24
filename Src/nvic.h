@@ -5,19 +5,36 @@
 #include "config.h"
 #include "main.h"
 
+/**
+ * Central class for interrupt handling.
+ */
 class Nvic {
 public:
+  /**
+   * Abstract type for interrupt callbacks.
+   * @tparam T The type of the data passed to the callback
+   */
   template<typename T>
   struct Callback {
   public:
     virtual ~Callback() = default;
 
+    /**
+     * Calls the callback with a pointer to the data.
+     */
     virtual void operator()(T *) const = 0;
   };
 
+  /**
+   * Callback using a function pointer.
+   */
   template<typename T>
   using callback_function_t = void (*)(T *);
 
+  /**
+   * Callback implementation using a function body.
+   * @tparam T The type of the data passed to the callback
+   */
   template<typename T>
   struct FunctionCallback : Callback<T> {
   protected:
@@ -31,9 +48,17 @@ public:
     }
   };
 
+  /**
+   * Callback body using a pointer to member function.
+   */
   template<typename T, typename M>
   using callback_member_function_t = void (M::*)(T *);
 
+  /**
+   * Callback implementation using a member function body.
+   * @tparam T The type of the data passed to the callback
+   * @tparam M The type containing the member function
+   */
   template<typename T, typename M>
   struct MemberCallback : Callback<T> {
   protected:
@@ -49,8 +74,18 @@ public:
     }
   };
 protected:
+  /**
+   * A mapping int => IRQn_Type to find the right index for a given IRQn_Type in
+   * Nvic::irqn_callbacks_.
+   * Ex:
+   * irqn_callback_types_[0] = SysTick_IRQn
+   * irqn_callbacks_[0] = {array of SysTick_IRQn callbacks}
+   */
   static const IRQn_Type irqn_callback_types_[IRQN_TYPE_COUNT];
   static const Callback<void> *irqn_callbacks_[IRQN_TYPE_COUNT][MAX_CALLBACK_COUNT];
+  /**
+   * Similar to Nvic::irqn_callback_types_ but for EXTI pins.
+   */
   static const Gpio::Pin::number_t exti_callback_types_[EXTI_TYPE_COUNT];
   static const Callback<void> *exti_callbacks_[EXTI_TYPE_COUNT][MAX_CALLBACK_COUNT];
 
