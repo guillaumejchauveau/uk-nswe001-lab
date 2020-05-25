@@ -1,16 +1,18 @@
 #ifndef _BUTTON_H_
 #define _BUTTON_H_
 
-#include "tick.h"
+#include "util/tick_counter.h"
 #include "nvic.h"
 #include "gpio.h"
+
+namespace peripheral {
 
 class Button {
 protected:
   Gpio::Pin pin_;
   IRQn_Type irqn_;
-  bool armed_;
-  Nvic::Callback<bool> *user_callback_;
+  bool armed_{};
+  Nvic::Callback<bool> *user_callback_{};
 
   Nvic::MemberCallback<void, Button> interrupt_callback_;
 
@@ -18,7 +20,6 @@ protected:
     if (!this->armed_) {
       return;
     }
-    assert_param(this->user_callback_);
     this->armed_ = false;
     bool rearm = true;
     this->user_callback_->operator()(&rearm);
@@ -34,27 +35,29 @@ protected:
     *rearmCounter = false;
   }
 
-  TickCounter rearm_counter_;
+  util::TickCounter rearm_counter_;
 
 public:
-  explicit Button(Gpio::Pin pin, size_t cooldown = 0)
-    : pin_(pin), irqn_(Nvic::getPinIRQn(pin)), armed_(true), user_callback_(nullptr),
+  explicit Button(Gpio::Pin pin)
+    : pin_(pin), irqn_(Nvic::getPinIRQn(pin)),
       interrupt_callback_(&Button::interruptCallback, this),
-      rearm_counter_callback_(&Button::rearmCounterCallback, this),
-      rearm_counter_(cooldown, &this->rearm_counter_callback_) {
+      rearm_counter_callback_(&Button::rearmCounterCallback, this) {
     Nvic::subscribe(this->pin_, &this->interrupt_callback_);
+  }
+
+  void init(Nvic::Callback<bool> *user_callback, uint32_t cooldown, uint32_t PreemptPriority,
+            uint32_t SubPriority = 0) {
+    assert_param(user_callback);
+    Gpio::init(this->pin_, GPIO_MODE_IT_RISING, GPIO_NOPULL);
+    this->rearm_counter_.init(&this->rearm_counter_callback_, cooldown);
+    this->user_callback_ = user_callback;
+    Nvic::setPriority(this->irqn_, PreemptPriority, SubPriority);
+    Nvic::enable(this->irqn_);
+    this->rearm();
   }
 
   ~Button() {
     Error_Handler();
-  }
-
-  void setPriority(uint32_t PreemptPriority, uint32_t SubPriority = 0) {
-    Nvic::setPriority(this->irqn_, PreemptPriority, SubPriority);
-  }
-
-  void setCallback(Nvic::Callback<bool> *callback) {
-    this->user_callback_ = callback;
   }
 
   void rearm() {
@@ -65,5 +68,7 @@ public:
     return Gpio::read(this->pin_) == GPIO_PIN_SET;
   }
 };
+
+} // namespace Peripheral
 
 #endif //_BUTTON_H_

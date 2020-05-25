@@ -1,6 +1,6 @@
-#include "registry.h"
+#include "peripheral/peripherals.h"
 
 extern "C" int _write(int file, char *ptr, int len) {
-  Registry::UART_2.send(ptr, len, nullptr);
+  peripheral::UART_2.send(ptr, len, nullptr);
   return len;
 }

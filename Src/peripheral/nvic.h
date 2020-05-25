@@ -5,6 +5,8 @@
 #include "config.h"
 #include "main.h"
 
+namespace peripheral {
+
 /**
  * Central class for interrupt handling.
  */
@@ -26,21 +28,15 @@ public:
   };
 
   /**
-   * Callback using a function pointer.
-   */
-  template<typename T>
-  using callback_function_t = void (*)(T *);
-
-  /**
-   * Callback implementation using a function body.
+   * Callback implementation using a function pointer.
    * @tparam T The type of the data passed to the callback
    */
   template<typename T>
   struct FunctionCallback : Callback<T> {
   protected:
-    callback_function_t<T> cb_function_;
+    void (*cb_function_)(T *);
   public:
-    explicit FunctionCallback(callback_function_t<T> callback) : cb_function_(callback) {
+    explicit FunctionCallback(void (*callback)(T *)) : cb_function_(callback) {
     }
 
     void operator()(T *data) const override {
@@ -49,23 +45,17 @@ public:
   };
 
   /**
-   * Callback body using a pointer to member function.
-   */
-  template<typename T, typename M>
-  using callback_member_function_t = void (M::*)(T *);
-
-  /**
-   * Callback implementation using a member function body.
+   * Callback implementation using a pointer to member function.
    * @tparam T The type of the data passed to the callback
    * @tparam M The type containing the member function
    */
   template<typename T, typename M>
   struct MemberCallback : Callback<T> {
   protected:
-    callback_member_function_t<T, M> cb_member_function_;
+    void (M::*cb_member_function_)(T *);
     M *cb_member_function_context_;
   public:
-    MemberCallback(callback_member_function_t<T, M> callback, M *context)
+    MemberCallback(void (M::*callback)(T *), M *context)
       : cb_member_function_(callback), cb_member_function_context_(context) {
     }
 
@@ -154,8 +144,13 @@ public:
     }
   }
 
-  static void setPriority(IRQn_Type IRQn, uint32_t PreemptPriority, uint32_t SubPriority = 0) {
+  static void setPriority(IRQn_Type IRQn, uint32_t PreemptPriority,
+                                 uint32_t SubPriority = 0) {
     HAL_NVIC_SetPriority(IRQn, PreemptPriority, SubPriority);
+  }
+
+  static void enable(IRQn_Type IRQn) {
+    HAL_NVIC_EnableIRQ(IRQn);
   }
 
   static IRQn_Type getPinIRQn(Gpio::Pin pin) {
@@ -192,5 +187,7 @@ public:
   Nvic() = delete;
   ~Nvic() = delete;
 };
+
+} // namespace Peripheral
 
 #endif //_NVIC_H_

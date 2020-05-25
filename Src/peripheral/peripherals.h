@@ -1,12 +1,13 @@
-#ifndef _REGISTRY_H_
-#define _REGISTRY_H_
+#ifndef _PERIPHERALS_H_
+#define _PERIPHERALS_H_
 
 #include "button.h"
 #include "led.h"
 #include "uart.h"
 #include "wdg.h"
 
-namespace Registry {
+namespace peripheral {
+
 extern Button BTN_USER;
 extern Led LED_ORANGE;
 extern Led LED_GREEN;
@@ -18,6 +19,7 @@ extern FlashLed LED_REDF;
 extern FlashLed LED_BLUEF;
 extern Uart UART_2;
 extern WatchDog WDG_I;
-}
 
-#endif //_REGISTRY_H_
+} // namespace Peripheral
+
+#endif //_PERIPHERALS_H_

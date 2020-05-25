@@ -42,8 +42,6 @@ extern "C" {
 
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
-extern UART_HandleTypeDef huart2;
-extern IWDG_HandleTypeDef hiwdg;
 
 /* USER CODE END EC */
 
@@ -56,10 +54,7 @@ extern IWDG_HandleTypeDef hiwdg;
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
-void SystemClock_Config(void);
-void MX_GPIO_Init(void);
-void MX_USART2_UART_Init(void);
-void MX_IWDG_Init(void);
+
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
