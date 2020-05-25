@@ -6,6 +6,7 @@
 #include <stm32f4xx_hal_gpio.h>
 #include <stm32f4xx_hal_uart.h>
 #include <stm32f4xx_hal_tim.h>
+#include <cstdio>
 
 using namespace peripheral;
 
@@ -69,6 +70,14 @@ void PendSV_Handler() {
 }
 
 /**
+ * @brief This function handles System tick timer.
+ */
+void SysTick_Handler() {
+  HAL_IncTick();
+  Nvic::dispatch(SysTick_IRQn);
+}
+
+/**
   * @brief This function handles EXTI line0 interrupt.
   */
 void EXTI0_IRQHandler() {
@@ -79,28 +88,40 @@ void EXTI0_IRQHandler() {
   * @brief This function handles TIM2 global interrupt.
   */
 void TIM2_IRQHandler() {
-  //HAL_TIM_IRQHandler(&htim2);
+  HAL_TIM_IRQHandler(peripheral::TICKER_TIM2.getHandle());
 }
 
 /**
   * @brief This function handles TIM3 global interrupt.
   */
 void TIM3_IRQHandler() {
-  //HAL_TIM_IRQHandler(&htim3);
+  HAL_TIM_IRQHandler(peripheral::TICKER_TIM3.getHandle());
 }
 
 /**
   * @brief This function handles TIM4 global interrupt.
   */
 void TIM4_IRQHandler() {
-  //HAL_TIM_IRQHandler(&htim4);
+  HAL_TIM_IRQHandler(peripheral::TICKER_TIM4.getHandle());
 }
 
 /**
   * @brief This function handles TIM5 global interrupt.
   */
 void TIM5_IRQHandler() {
-  //HAL_TIM_IRQHandler(&htim5);
+  HAL_TIM_IRQHandler(peripheral::TICKER_TIM5.getHandle());
+}
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+  if (htim == peripheral::TICKER_TIM2.getHandle()) {
+    peripheral::TICKER_TIM2._handlePeriodElapsed();
+  } else if (htim == peripheral::TICKER_TIM3.getHandle()) {
+    peripheral::TICKER_TIM3._handlePeriodElapsed();
+  } else if (htim == peripheral::TICKER_TIM4.getHandle()) {
+    peripheral::TICKER_TIM4._handlePeriodElapsed();
+  } else if (htim == peripheral::TICKER_TIM5.getHandle()) {
+    peripheral::TICKER_TIM5._handlePeriodElapsed();
+  }
 }
 
 /**
@@ -108,14 +129,6 @@ void TIM5_IRQHandler() {
   */
 void USART2_IRQHandler() {
   HAL_UART_IRQHandler(peripheral::UART_2.getHandle());
-}
-
-/**
- * @brief This function handles System tick timer.
- */
-void SysTick_Handler() {
-  HAL_IncTick();
-  Nvic::dispatch(SysTick_IRQn);
 }
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
@@ -138,16 +151,4 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart) {
   if (huart == peripheral::UART_2.getHandle()) {
     peripheral::UART_2._handleError();
   }
-}
-
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-  /*if (htim == &htim2) {
-
-  } else if (htim == &htim3) {
-
-  } else if (htim == &htim4) {
-
-  } else if (htim == &htim5) {
-
-  }*/
 }

@@ -1,6 +1,6 @@
 #ifndef _LED_H_
 #define _LED_H_
-#include "util/tick_counter.h"
+#include "util/counter.h"
 #include "gpio.h"
 
 namespace peripheral {
@@ -48,9 +48,9 @@ public:
     : Led(pin), tick_counter_callback_(&FlashLed::tickCounterCallback, this) {
   }
 
-  void init(uint32_t ticks) {
+  void init(uint32_t off_ticks, peripheral::Ticker *ticker) {
     Led::init();
-    this->tick_counter_.init(&this->tick_counter_callback_, ticks);
+    this->tick_counter_.init(off_ticks, ticker, &this->tick_counter_callback_);
   }
 
   void on() {
@@ -59,6 +59,6 @@ public:
   }
 };
 
-} // namespace Peripheral
+} // namespace peripheral
 
 #endif //_LED_H_

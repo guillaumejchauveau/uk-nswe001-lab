@@ -88,6 +88,6 @@ public:
   }
 };
 
-} // namespace Peripheral
+} // namespace peripheral
 
 #endif //_GPIO_H_

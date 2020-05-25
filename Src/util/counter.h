@@ -1,6 +1,7 @@
-#ifndef _TICK_COUNTER_H_
-#define _TICK_COUNTER_H_
+#ifndef _COUNTER_H_
+#define _COUNTER_H_
 
+#include "peripheral/tick.h"
 #include "peripheral/nvic.h"
 
 namespace util {
@@ -34,17 +35,20 @@ public:
   TickCounter() : interrupt_callback_(&TickCounter::interruptCallback, this) {
   }
 
-  TickCounter(peripheral::Nvic::Callback<bool> *user_callback, uint32_t tick_threshold)
+  TickCounter(uint32_t tick_threshold, peripheral::Ticker *ticker,
+              peripheral::Nvic::Callback<bool> *user_callback)
     : interrupt_callback_(&TickCounter::interruptCallback, this) {
-    this->init(user_callback, tick_threshold);
+    this->init(tick_threshold, ticker, user_callback);
   }
 
-  void init(peripheral::Nvic::Callback<bool> *user_callback, uint32_t tick_threshold) {
-    assert_param(user_callback);
+  void init(uint32_t tick_threshold, peripheral::Ticker *ticker,
+            peripheral::Nvic::Callback<bool> *user_callback) {
     assert_param(tick_threshold);
-    this->user_callback_ = user_callback;
+    assert_param(ticker);
+    assert_param(user_callback);
     this->tick_threshold_ = tick_threshold;
-    peripheral::Nvic::subscribe(SysTick_IRQn, &this->interrupt_callback_);
+    this->user_callback_ = user_callback;
+    ticker->onTick(&this->interrupt_callback_);
   }
 
   ~TickCounter() {
@@ -58,4 +62,4 @@ public:
 
 } // namespace util
 
-#endif //_TICK_COUNTER_H_
+#endif //_COUNTER_H_

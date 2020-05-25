@@ -1,7 +1,7 @@
 #ifndef _BUTTON_H_
 #define _BUTTON_H_
 
-#include "util/tick_counter.h"
+#include "util/counter.h"
 #include "nvic.h"
 #include "gpio.h"
 
@@ -45,11 +45,11 @@ public:
     Nvic::subscribe(this->pin_, &this->interrupt_callback_);
   }
 
-  void init(Nvic::Callback<bool> *user_callback, uint32_t cooldown, uint32_t PreemptPriority,
-            uint32_t SubPriority = 0) {
+  void init(Nvic::Callback<bool> *user_callback, uint32_t rearm_ticks, peripheral::Ticker *ticker,
+            uint32_t PreemptPriority, uint32_t SubPriority = 0) {
     assert_param(user_callback);
     Gpio::init(this->pin_, GPIO_MODE_IT_RISING, GPIO_NOPULL);
-    this->rearm_counter_.init(&this->rearm_counter_callback_, cooldown);
+    this->rearm_counter_.init(rearm_ticks, ticker, &this->rearm_counter_callback_);
     this->user_callback_ = user_callback;
     Nvic::setPriority(this->irqn_, PreemptPriority, SubPriority);
     Nvic::enable(this->irqn_);
@@ -69,6 +69,6 @@ public:
   }
 };
 
-} // namespace Peripheral
+} // namespace peripheral
 
 #endif //_BUTTON_H_

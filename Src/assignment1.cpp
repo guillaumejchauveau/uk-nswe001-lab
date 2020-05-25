@@ -89,7 +89,7 @@ void uart_echo(peripheral::Uart::CallbackData *data) {
   LedCycle cycle(cycle_leds, 4);
 
   peripheral::Nvic::MemberCallback btn_cb(&LedCycle::changeMode, &cycle);
-  peripheral::BTN_USER.init(&btn_cb, 50, 2);
+  peripheral::BTN_USER.init(&btn_cb, 50, &peripheral::TICKER_SYSTICK, 2);
 
   // Exercises 10 & 11.
   char c;

@@ -37,6 +37,7 @@ public:
     void (*cb_function_)(T *);
   public:
     explicit FunctionCallback(void (*callback)(T *)) : cb_function_(callback) {
+      assert_param(callback);
     }
 
     void operator()(T *data) const override {
@@ -57,6 +58,8 @@ public:
   public:
     MemberCallback(void (M::*callback)(T *), M *context)
       : cb_member_function_(callback), cb_member_function_context_(context) {
+      assert_param(callback);
+      assert_param(context);
     }
 
     void operator()(T *data) const override {
@@ -81,6 +84,7 @@ protected:
 
 public:
   static void subscribe(IRQn_Type interrupt_type, const Callback<void> *callback) {
+    assert_param(callback);
     size_t i = 0;
     for (auto stored_type : Nvic::irqn_callback_types_) {
       if (stored_type == interrupt_type) {
@@ -95,6 +99,7 @@ public:
   }
 
   static void subscribe(Gpio::Pin::number_t interrupt_type, const Callback<void> *callback) {
+    assert_param(callback);
     size_t i = 0;
     for (auto stored_type : Nvic::exti_callback_types_) {
       if (stored_type == interrupt_type) {
@@ -145,7 +150,7 @@ public:
   }
 
   static void setPriority(IRQn_Type IRQn, uint32_t PreemptPriority,
-                                 uint32_t SubPriority = 0) {
+                          uint32_t SubPriority = 0) {
     HAL_NVIC_SetPriority(IRQn, PreemptPriority, SubPriority);
   }
 
@@ -188,6 +193,6 @@ public:
   ~Nvic() = delete;
 };
 
-} // namespace Peripheral
+} // namespace peripheral
 
 #endif //_NVIC_H_

@@ -45,6 +45,10 @@ public:
     }
   }
 
+  UART_HandleTypeDef *getHandle() {
+    return &this->handle_;
+  }
+
   HAL_StatusTypeDef send(char *buffer, uint16_t len) {
     return HAL_UART_Transmit_IT(&this->handle_, reinterpret_cast<uint8_t *>(buffer), len);
   }
@@ -70,10 +74,6 @@ public:
     this->rx_len_ = len;
     this->rx_user_callback_ = callback;
     return this->recv();
-  }
-
-  UART_HandleTypeDef *getHandle() {
-    return &this->handle_;
   }
 
   void _handleTxCplt() {
@@ -120,6 +120,6 @@ public:
   }
 };
 
-} // namespace Peripheral
+} // namespace peripheral
 
 #endif //_UART_H_

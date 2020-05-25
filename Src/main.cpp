@@ -23,6 +23,11 @@ Uart peripheral::UART_2(USART2, USART2_IRQn,
                         Gpio::Pin(USART2_RX_GPIO_Port, USART2_RX_Pin),
                         GPIO_AF7_USART2);
 WatchDog peripheral::WDG_I(IWDG);
+SysTickTicker peripheral::TICKER_SYSTICK;
+TimTicker peripheral::TICKER_TIM2(TIM2, TIM2_IRQn);
+TimTicker peripheral::TICKER_TIM3(TIM3, TIM3_IRQn);
+TimTicker peripheral::TICKER_TIM4(TIM4, TIM4_IRQn);
+TimTicker peripheral::TICKER_TIM5(TIM5, TIM5_IRQn);
 
 extern void assignment1();
 extern void assignment2();
@@ -40,7 +45,6 @@ int main() {
       .OverSampling = UART_OVERSAMPLING_16
     }, 1);
   printf("Reset\r\n");
-  //HAL_TIM_Base_Start_IT(&htim2);
 
   //assignment1();
   assignment2();

@@ -22,12 +22,16 @@ public:
     this->handle_.Instance = instance;
   }
 
-  void init(IWDG_InitTypeDef init) {
+  void init(IWDG_InitTypeDef init, Ticker *ticker) {
     this->handle_.Init = init;
     if (HAL_IWDG_Init(&this->handle_) != HAL_OK) {
       Error_Handler();
     }
-    Nvic::subscribe(SysTick_IRQn, &this->refresh_callback_);
+    ticker->onTick(&this->refresh_callback_);
+  }
+
+  IWDG_HandleTypeDef *getHandle() {
+    return &this->handle_;
   }
 
   ~WatchDog() {
@@ -37,12 +41,8 @@ public:
   void refresh() {
     HAL_IWDG_Refresh(&this->handle_);
   }
-
-  IWDG_HandleTypeDef *getHandle() {
-    return &this->handle_;
-  }
 };
 
-} // namespace Peripheral
+} // namespace peripheral
 
 #endif //_WDG_H_

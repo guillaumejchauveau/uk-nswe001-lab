@@ -19,7 +19,12 @@ extern FlashLed LED_REDF;
 extern FlashLed LED_BLUEF;
 extern Uart UART_2;
 extern WatchDog WDG_I;
+extern SysTickTicker TICKER_SYSTICK;
+extern TimTicker TICKER_TIM2;
+extern TimTicker TICKER_TIM3;
+extern TimTicker TICKER_TIM4;
+extern TimTicker TICKER_TIM5;
 
-} // namespace Peripheral
+} // namespace peripheral
 
 #endif //_PERIPHERALS_H_
