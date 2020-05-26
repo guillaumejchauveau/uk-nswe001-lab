@@ -1,9 +1,9 @@
 #ifndef IRQN_TYPE_COUNT
-#define IRQN_TYPE_COUNT 1
+#define IRQN_TYPE_COUNT 0
 #endif
 
 #ifndef EXTI_TYPE_COUNT
-#define EXTI_TYPE_COUNT 1
+#define EXTI_TYPE_COUNT 0
 #endif
 
 #ifndef MAX_CALLBACK_COUNT
