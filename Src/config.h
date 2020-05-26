@@ -7,5 +7,5 @@
 #endif
 
 #ifndef MAX_CALLBACK_COUNT
-#define MAX_CALLBACK_COUNT 16
+#define MAX_CALLBACK_COUNT 5
 #endif

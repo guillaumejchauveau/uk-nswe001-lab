@@ -135,12 +135,6 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
   Nvic::dispatch(Gpio::Pin::convert_number(GPIO_Pin));
 }
 
-void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart) {
-  if (huart == peripheral::UART_2.getHandle()) {
-    peripheral::UART_2._handleTxCplt();
-  }
-}
-
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
   if (huart == peripheral::UART_2.getHandle()) {
     peripheral::UART_2._handleRxCplt();

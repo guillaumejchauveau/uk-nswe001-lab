@@ -19,7 +19,6 @@ protected:
   Gpio::Pin tx_pin_;
   Gpio::Pin rx_pin_;
   uint32_t uart_gpio_alternate_function_;
-  Nvic::Callback <CallbackData> *tx_user_callback_{};
   char *rx_buffer_{};
   uint16_t rx_len_{};
   Nvic::Callback <CallbackData> *rx_user_callback_{};
@@ -50,12 +49,8 @@ public:
   }
 
   HAL_StatusTypeDef send(char *buffer, uint16_t len) {
-    return HAL_UART_Transmit_IT(&this->handle_, reinterpret_cast<uint8_t *>(buffer), len);
-  }
-
-  HAL_StatusTypeDef send(char *buffer, uint16_t len, Nvic::Callback <CallbackData> *callback) {
-    this->tx_user_callback_ = callback;
-    return this->send(buffer, len);
+    return HAL_UART_Transmit(&this->handle_, reinterpret_cast<uint8_t *>(buffer), len,
+                             HAL_MAX_DELAY);
   }
 
   HAL_StatusTypeDef recv() {
@@ -76,18 +71,6 @@ public:
     return this->recv();
   }
 
-  void _handleTxCplt() {
-    if (!this->tx_user_callback_) {
-      return;
-    }
-    CallbackData data{
-      .buffer = nullptr,
-      .len = 0,
-      .error = false
-    };
-    this->tx_user_callback_->operator()(&data);
-  }
-
   void _handleRxCplt() {
     if (!this->rx_user_callback_) {
       return;
@@ -101,7 +84,7 @@ public:
   }
 
   void _handleError() {
-    if (!this->tx_user_callback_ && !this->rx_user_callback_) {
+    if (!this->rx_user_callback_) {
       Error_Handler();
     }
 
@@ -111,12 +94,7 @@ public:
       .error = true
     };
 
-    if (this->tx_user_callback_) {
-      this->tx_user_callback_->operator()(&data);
-    }
-    if (this->rx_user_callback_) {
-      this->rx_user_callback_->operator()(&data);
-    }
+    this->rx_user_callback_->operator()(&data);
   }
 };
 
